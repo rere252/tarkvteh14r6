@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="POS" basedir=".">
 
-<property name="src" location="src"/>
-<propertyfile file="application.properties"/>
-<property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
-			
+	<property name="src" location="src"/>
+	<propertyfile file="version.properties"/>
+	<property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+	
+	<target name="clean">
+	</target>
+		
+	<target name="build">
+	</target>
+		
+	<target name="run" depends="build">
+	</target>
+	
+	<target name="dist" depends="build">
+	</target>
+	
+	<target name="jrun">
+	</target>
+	
 </project>
