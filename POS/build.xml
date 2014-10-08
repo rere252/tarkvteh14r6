@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="POS" basedir=".">
+
+<property name="src" location="src"/>
+<propertyfile file="application.properties"/>
+<property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+			
+</project>
