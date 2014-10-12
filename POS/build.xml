@@ -26,14 +26,14 @@
 		</fileset>
 	</path>
 
-	<!--<path id="test.classpath">
-		<pathelement location="${build.classes.dir}"/>-->
+	<path id="test.classpath">
+		<pathelement location="${build.classes.dir}"/>
 		<!-- configuration -->
-	<!--	<pathelement location="${conf.dir}"/>
+	<pathelement location="${conf.dir}"/>
 		<fileset dir="lib">
 			<include name="*.jar"/>
 		</fileset>
-	</path>-->
+	</path>
 
 	<!-- Definitions of runnable ant targets.
          Run them from the command line by executing "ant [targetname]"  -->
