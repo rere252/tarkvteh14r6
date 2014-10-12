@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class IntroUI extends JPanel{
+	
 	public static void createWindow(){
 		JFrame frame = new JFrame("beeroverflow");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,4 +28,5 @@ public class IntroUI extends JPanel{
 		frame.pack();
 		frame.setVisible(true);		
 	}
+	
 }
