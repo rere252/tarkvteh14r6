@@ -3,6 +3,7 @@
 	
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="build.dir" value="${basedir}/build"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="main.class" value="ee.ut.math.tvt.beeroverflow.Intro"/>
@@ -29,7 +30,7 @@
 			fork="yes" />
 	</target>
 
-	<target name="build" description="Build the system">
+	<target name="build" depends="clean" description="Build the system">
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 		<javac
