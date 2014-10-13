@@ -14,8 +14,8 @@
 	
 	<path id="classpath">
 		<pathelement location="${build.classes.dir}"/>
-		<fileset dir="lib"/>
-		<fileset dir="img"/>
+		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+		<fileset dir="img" includes="**/*.jpg"/>
 	</path>
 	
 	
@@ -60,9 +60,9 @@
 			<fileset dir="${basedir}" 
 				includes="**.properties"
 				excludes="**.xml"/>
-			<fileset dir="lib">
+			<zipgroupfileset dir="lib">
 				<include name="*.jar"/>
-			</fileset>
+			</zipgroupfileset>
 			<fileset dir="img"/>
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}"/>

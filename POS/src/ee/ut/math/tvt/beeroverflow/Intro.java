@@ -8,7 +8,7 @@ public class Intro {
 	private static final Logger log = LogManager.getLogger(Intro.class.getName());
 
 	public static void main(String[] args) {
-		
+
 		IntroUI.createWindow();
 		
 	}
