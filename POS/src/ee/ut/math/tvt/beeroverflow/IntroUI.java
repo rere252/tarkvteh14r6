@@ -29,7 +29,7 @@ public class IntroUI extends JPanel{
 		File appFile = new File("application.properties");
 		File verFile = new File("version.properties");
 		String teamKey = "Our_team_logo";
-		String verKey = "version.number";
+		String buildKey = "build.number";
 	    Box box = Box.createVerticalBox();
 
 		//Loading the files in
@@ -47,9 +47,9 @@ public class IntroUI extends JPanel{
 			}
 		}
 		
-		// Insert the version number
-		String versionNum = verProperties.getProperty(verKey);
-		box.add(new JLabel("Version: " + versionNum));
+		// Insert the build number
+		String buildNum = verProperties.getProperty(buildKey);
+		box.add(new JLabel("Version: " + buildNum));
 		
 		// Insert the logo
 		ImageIcon img = new ImageIcon(appProperties.getProperty(teamKey));

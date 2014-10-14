@@ -7,8 +7,6 @@
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="main.class" value="ee.ut.math.tvt.beeroverflow.Intro"/>
-	<property file="version.properties"/>
-	<property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
 	<property file="application.properties"/>
 
 	
@@ -33,6 +31,10 @@
 	<target name="build" depends="clean" description="Build the system">
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
+		<copy todir="${build.classes.dir}">
+			<fileset file="${src.dir}"
+				includes="**/*.xml"/>
+		</copy>
 		<javac
             srcdir="${src.dir}"
             destdir="${build.classes.dir}"
@@ -51,17 +53,17 @@
 		<mkdir dir="${dist.dir}"/>
 		<propertyfile file="version.properties">
 			<entry key="build.revision.number" type="int" default="0" operation="+"/>
-			<entry key="build.minor.number" type="int" default="0"/>
-			<entry key="build.major.number" type="int" default="0"/>
-			<entry key="version.number" value="${build.number}"/>
+		</propertyfile>
+		<property file="version.properties"/>
+		<propertyfile file="version.properties">
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
 		</propertyfile>
 		<jar destfile="${dist.dir}/${Team_name}.jar">
 			<fileset dir="${build.classes.dir}"/>
-			<fileset dir="${src.dir}" 
-				includes="**.xml"/>
 			<fileset dir="${basedir}" 
-				includes="**.properties"
-				excludes="**.xml"/>
+				includes="log4j2.xml"/>
+			<fileset dir="${basedir}" 
+				includes="**.properties"/>
 			<zipgroupfileset dir="lib">
 				<include name="*.jar"/>
 			</zipgroupfileset>
