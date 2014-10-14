@@ -13,9 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class IntroUI extends JPanel{
-	
+	private static final Logger log = LogManager.getLogger(IntroUI.class.getName());
+
 	public static void createWindow(){
 		JLabel textLabel;
 		Properties appProperties;
@@ -57,6 +61,8 @@ public class IntroUI extends JPanel{
 		frame.add(box);
 		frame.pack();
 		frame.setVisible(true);
+		
+		log.info("The window has been opened!");
 	}
 	
 	private static Properties makeProperties(File f){
