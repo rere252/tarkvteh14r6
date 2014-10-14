@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 public class IntroUI extends JPanel{
 	
 	public static void createWindow() throws IOException{
+		JFrame frame = new JFrame("beeroverflow");
+		JPanel panel = new JPanel(new BorderLayout());
+		JLabel textLabel = new JLabel();
 		ImageIcon img = new ImageIcon("img//beer.jpg");
 		JLabel pilt = new JLabel(img);
 		pilt.setIcon(img);
@@ -25,8 +28,6 @@ public class IntroUI extends JPanel{
 		properties.load(fileInput);
 		fileInput.close();
 		Enumeration<Object> enuKeys = properties.keys();
-		JLabel textLabel = new JLabel();
-		JFrame frame = new JFrame("beeroverflow");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		while (enuKeys.hasMoreElements()) {
 			String key = (String) enuKeys.nextElement();
@@ -34,10 +35,11 @@ public class IntroUI extends JPanel{
 			textLabel.setText( textLabel.getText() +"<html>"+ key.replace('_', ' ') + ": " + value + " <br>"+ "<html>");
 		}	
 			
-		frame.getContentPane().add(textLabel, BorderLayout.PAGE_START);
-		frame.getContentPane().add(pilt, BorderLayout.AFTER_LINE_ENDS);
-		textLabel.setPreferredSize(new Dimension(180, 150));
+		panel.add(textLabel, BorderLayout.NORTH);
+	    	panel.add(pilt, BorderLayout.SOUTH);
+	    	frame.add(panel, BorderLayout.NORTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
+
 }
