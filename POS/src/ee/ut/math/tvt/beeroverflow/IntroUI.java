@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 public class IntroUI extends JPanel{
 	
 	public static void createWindow(){
@@ -37,7 +38,6 @@ public class IntroUI extends JPanel{
 			String key = (String) appKeys.nextElement();
 			String value = appProperties.getProperty(key);
 			if(!key.equals(teamKey)) {
-				System.out.println(value);
 				textLabel = new JLabel(key.replace('_', ' ') + ": " + value);
 				box.add(textLabel);
 			}
