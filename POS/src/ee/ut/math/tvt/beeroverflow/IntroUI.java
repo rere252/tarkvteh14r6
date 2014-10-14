@@ -38,4 +38,6 @@ public class IntroUI extends JPanel{
 		frame.getContentPane().add(pilt, BorderLayout.AFTER_LINE_ENDS);
 		textLabel.setPreferredSize(new Dimension(180, 150));
 		frame.pack();
-		frame.setVisible(true);	
+		frame.setVisible(true);
+	}
+}
