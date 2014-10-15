@@ -77,11 +77,5 @@
 	<target name="jrun" depends="dist">
 		<java jar="${dist.dir}/${Team_name}.jar" fork="true"/>
 	</target>
-	
-	<target name="runc" depends="build" description="Run the application (console)">
-		<java classname="${main.class}" classpathref="test.classpath" fork="yes">
-			<arg value="console" />
-		</java>
-	</target>
 
 </project>
