@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -197,6 +198,12 @@ public class PurchaseItemPanel extends JPanel {
                 quantity = Integer.parseInt(quantityField.getText());
             } catch (NumberFormatException ex) {
                 quantity = 1;
+            }
+            
+            //checking if warehouse has enough items in stock
+            //should also check how many items are in the cart
+            if(quantity > stockItem.getQuantity()){
+            	JOptionPane.showMessageDialog(this, "Not enough items in stock!");
             }
             model.getCurrentPurchaseTableModel()
                 .addItem(new SoldItem(stockItem, quantity));
