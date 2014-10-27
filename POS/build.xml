@@ -88,9 +88,9 @@
 	</target>
 	
 	<target name="git_commit" depends="clean">
-		<!--<input message="Insert username:" addproperty="username"/>
+		<input message="Insert username:" addproperty="username"/>
 		<input message="Insert password:" addproperty="password"/>
-		<input message="Insert your comment for the commit:" addproperty="comment"/>-->
+		<input message="Insert your comment for the commit:" addproperty="comment"/>
 		<commit user="${username}" password="${password}" comment="${comment}"/>
 	</target>
 	
@@ -113,7 +113,8 @@
 				<arg value="@{comment}"/>
 			</exec>
 			<exec executable="git">
-				<arg value="push https://@{user}:@{password}@github.com/rere252/testGit.git"/>
+				<arg value="push"/> 
+				<arg value="https://@{user}:@{password}@github.com/rere252/testGit.git"/>
 			</exec>
 		</sequential>
 	</macrodef>
