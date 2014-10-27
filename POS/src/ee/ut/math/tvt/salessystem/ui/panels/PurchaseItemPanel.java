@@ -97,9 +97,17 @@ public class PurchaseItemPanel extends JPanel {
         nameBox = new JComboBox<String>();
         fillNameBox();
 
-        //nameBox.add
+        nameBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fillDialogFields();
+			}
+        	
+        });
+        
         // Fill the dialog fields if the name box loses focus
-        nameBox.addFocusListener(new FocusListener() {
+/*        nameBox.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
             }
 
@@ -107,7 +115,7 @@ public class PurchaseItemPanel extends JPanel {
                 fillDialogFields();
             }
         });
-
+*/
         barCodeField.setEditable(false);
         priceField.setEditable(false);
    
@@ -171,6 +179,8 @@ public class PurchaseItemPanel extends JPanel {
     		return null;
     	}
     }
+    
+    
 
     // Search the warehouse for a StockItem with the bar code entered
     // to the barCode textfield.
