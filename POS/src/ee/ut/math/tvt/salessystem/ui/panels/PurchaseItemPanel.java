@@ -214,7 +214,10 @@ public class PurchaseItemPanel extends JPanel {
             //should also check how many items are in the cart
             if(quantity > stockItem.getQuantity()){
             	JOptionPane.showMessageDialog(this, "Not enough items in stock!");
+            	return;
             }
+            
+          
             model.getCurrentPurchaseTableModel()
                 .addItem(new SoldItem(stockItem, quantity));
         }
