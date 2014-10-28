@@ -207,19 +207,33 @@ public class PurchaseItemPanel extends JPanel {
             try {
                 quantity = Integer.parseInt(quantityField.getText());
             } catch (NumberFormatException ex) {
-                quantity = 1;
+                quantity = 0;
             }
-            
+			//Check whether there are items of this kind in the table already.
+			boolean row_exists = false; 
+			try {
+				SoldItem inCart = (model.getCurrentPurchaseTableModel())
+										.getItemById(stockItem.getId());
+				quantity += inCart.getQuantity();
+				row_exists = true; 
+			} catch (NoSuchElementException nsee) {}
             //checking if warehouse has enough items in stock
             //should also check how many items are in the cart
             if(quantity > stockItem.getQuantity()){
             	JOptionPane.showMessageDialog(this, "Not enough items in stock!");
             	return;
             }
-            
-          
-            model.getCurrentPurchaseTableModel()
+            if (!row_exists) {
+				model.getCurrentPurchaseTableModel()
                 .addItem(new SoldItem(stockItem, quantity));
+				}
+			else {
+				model.getCurrentPurchaseTableModel()
+					 .getItemById(stockItem.getId())
+					 .setQuantity(quantity);
+				model.getCurrentPurchaseTableModel()
+					 .fireTableDataChanged();
+			}
         }
     }
 
