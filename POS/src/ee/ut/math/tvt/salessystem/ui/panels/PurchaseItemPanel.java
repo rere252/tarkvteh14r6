@@ -219,10 +219,14 @@ public class PurchaseItemPanel extends JPanel {
 			} catch (NoSuchElementException nsee) {}
             //checking if warehouse has enough items in stock
             //should also check how many items are in the cart
-            if(quantity > stockItem.getQuantity()){
+            if (quantity > stockItem.getQuantity()){
             	JOptionPane.showMessageDialog(this, "Not enough items in stock!");
             	return;
             }
+			else if (quantity <= 0) {
+            	JOptionPane.showMessageDialog(this, "Invalid item quantity input!");
+            	return;
+			}
             if (!row_exists) {
 				model.getCurrentPurchaseTableModel()
                 .addItem(new SoldItem(stockItem, quantity));
