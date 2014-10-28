@@ -22,11 +22,12 @@ public class StockItem implements Cloneable, DisplayableItem {
      * @param desc description of the product
      * @param price price of the product
      */
-    public StockItem(Long id, String name, String desc, double price) {
+    public StockItem(Long id, String name, double price, int quantity) {
         this.id = id;
         this.name = name;
-        this.description = desc;
         this.price = price;
+        this.quantity = quantity;
+        
     }
     
     public StockItem(Long id, String name, String desc, double price, int quantity) {
