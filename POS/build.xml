@@ -27,6 +27,9 @@
 		<java classname="${main.class}" 
 			classpathref="classpath" 
 			fork="yes" />
+		<!-- EI TOIMI! -->
+	<!--<jvmarg value="-Xdebug" />
+		<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />-->
 	</target>
 
 	<target name="build" depends="clean" description="Build the system">
