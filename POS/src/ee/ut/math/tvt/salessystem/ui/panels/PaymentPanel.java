@@ -35,6 +35,7 @@ public class PaymentPanel {
 	private static JTextField change;
 	private static JButton acceptButton;
 	private static JButton cancelButton;
+	private static JButton okButton;
 	private static PurchaseInfoTableModel parent;
 	private static double finalPrice;
     private static boolean confirmed = false;
@@ -60,7 +61,7 @@ public class PaymentPanel {
     		
     		//double sum = parent.totalAmount();
     		JTextField totalSum= new JTextField("100");
-    		price.add(totalSum);
+    		panel.add(totalSum);
     		
     		
     		JLabel amountPaid = new JLabel("Amount paid:");
@@ -74,7 +75,7 @@ public class PaymentPanel {
     		panel.add(returnMoney);
     		
     		JTextField change= new JTextField();
-    		returnMoney.add(change);
+    		panel.add(change);
     		
     		JButton acceptButton = new JButton("Accept");
     		panel.add(acceptButton);
@@ -85,6 +86,7 @@ public class PaymentPanel {
     		      });
     		
     		 JButton okButton = new JButton("Ok");
+    		 panel.add(okButton);
     	        okButton.addActionListener(new ActionListener() {
     	            public void actionPerformed(ActionEvent e) {
     	               okButtonClikked();
