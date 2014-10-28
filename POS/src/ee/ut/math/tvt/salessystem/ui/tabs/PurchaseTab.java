@@ -3,13 +3,16 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.panels.PaymentPanel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -166,7 +169,14 @@ public class PurchaseTab {
 
 
   /** Event handler for the <code>submit purchase</code> event. */
-  protected void submitPurchaseButtonClicked() {
+  
+  protected void submitPurchaseButtonClicked(){
+	  double price = model.getCurrentPurchaseTableModel().totalAmount();
+	  PaymentPanel.show(price,this);
+  }
+  
+  
+  public void acceptPurchaseButtonClicked() {
     log.info("Sale complete");
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
@@ -178,6 +188,8 @@ public class PurchaseTab {
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
+  
+  
   }
 
 
@@ -195,7 +207,13 @@ public class PurchaseTab {
     cancelPurchase.setEnabled(true);
     newPurchase.setEnabled(false);
   }
-
+  
+  //switch UI to the state that allows to proceed with the old purchase
+  public void cancelPayment() {
+      submitPurchase.setEnabled(true);
+      cancelPurchase.setEnabled(true);
+      purchasePane.setEnabled(true);
+  }
   // switch UI to the state that allows to initiate new purchase
   private void endSale() {
     purchasePane.reset();
