@@ -51,7 +51,7 @@ public class PaymentPanel {
 		currentCart = cart_forwarded;
     	if(!confirmed){    		
 			//Frame
-    		JFrame paymentFrame = new JFrame("Payment");
+    		final JFrame paymentFrame = new JFrame("Payment");
     		paymentFrame.setAlwaysOnTop(true);
             paymentFrame.setResizable(false);
     		paymentFrame.setVisible(true);
@@ -82,7 +82,7 @@ public class PaymentPanel {
     		change= new JLabel(String.valueOf(0-(Double.parseDouble(totalSum.getText()))));
     		panel.add(change);
 			//Buttons
-    		JButton acceptButton = new JButton("Accept");
+    		acceptButton = new JButton("Accept");
     		panel.add(acceptButton);
     		acceptButton.addActionListener(new ActionListener() {
     		    public void actionPerformed(ActionEvent e) {
@@ -100,12 +100,13 @@ public class PaymentPanel {
 					}					
 				}
     		});
-    		JButton cancelButton = new JButton("Cancel");
+    		cancelButton = new JButton("Cancel");
     		panel.add(cancelButton);
     		cancelButton.addActionListener (new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					purchaseTab.cancelPayment();
-   		    		cancelPayment();	 
+					//purchaseTab.cancelPayment();
+   		    		//cancelPayment();	 
+					paymentFrame.dispose();
    		        }
     		});  		
 			//Set confirmed to true.
