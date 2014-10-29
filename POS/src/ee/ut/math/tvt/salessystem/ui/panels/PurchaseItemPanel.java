@@ -225,7 +225,7 @@ public class PurchaseItemPanel extends JPanel {
         this.addItemButton.setEnabled(enabled);
         this.barCodeField.setEnabled(enabled);
         this.quantityField.setEnabled(enabled);
-        this.nameBox.setEnabled(enabled);
+        nameBox.setEnabled(enabled);
     }
 
     /**

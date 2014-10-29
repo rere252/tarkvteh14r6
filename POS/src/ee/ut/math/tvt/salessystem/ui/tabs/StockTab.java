@@ -62,7 +62,6 @@ public class StockTab {
 		gc.gridwidth = GridBagConstraints.REMAINDER;
 		gc.weightx = 1.0d;
 		gc.weighty = 0d;
-
 		panel.add(drawStockMenuPane(), gc);
 
 		gc.weighty = 1.0;
@@ -76,45 +75,61 @@ public class StockTab {
 		JPanel panel = new JPanel();
 
 		GridBagLayout gb = new GridBagLayout();
-		//GridBagConstraints gc = new GridBagConstraints();
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gc.gridheight = GridBagConstraints.RELATIVE;
 		panel.setLayout(gb);
+				
+		id_label = new JLabel(" Id: ");
+		gc.gridx = 0;
+		panel.add(id_label, gc);
 		
-/*		gc.anchor = GridBagConstraints.LINE_START;
-		gc.gridheight = GridBagConstraints.RELATIVE;*/
-
-/*		gc.anchor = GridBagConstraints.NORTHWEST;
-		gc.weightx = 0;*/
-
+		name_label = new JLabel(" Name: ");
+		gc.gridx = 2;
+		panel.add(name_label, gc);
+	
+		price_label = new JLabel(" Price: ");
+		gc.gridx = 4;
+		panel.add(price_label, gc);
+		
+		quantity_label = new JLabel(" Quantity: ");
+		gc.gridx = 6;
+		panel.add(quantity_label, gc);
+		
+		gc.weightx = 1;
+		
+		id_field = new JTextField();
+		gc.gridx = 1;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(id_field, gc);
+		
+		name_field = new JTextField();
+		gc.gridx = 3;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(name_field, gc);
+			
+		gc.weightx = 0.3;
+		price_field = new JTextField();
+		gc.gridx = 5;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(price_field, gc);
+		
+		gc.weightx = 0.2;
+		quantity_field = new JTextField();	
+		gc.gridx = 7;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(quantity_field, gc);
+		
 		addItem = new JButton("Add");
-		
-		id_label = new JLabel("Id: ");
-		name_label = new JLabel("Name: ");
-		price_label = new JLabel("Price: ");
-		quantity_label = new JLabel("Quantity: ");
-		
-		id_field = new JTextField("", 5);
-		name_field = new JTextField("", 15);
-		price_field = new JTextField("", 5);
-		quantity_field = new JTextField("", 5);		
-		
-		//gc.gridwidth = GridBagConstraints.RELATIVE;
-		//gc.weightx = 1.0;
-		
+		gc.gridx = 8;
+		panel.add(addItem, gc);
+			
 		addItem.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
 		    	  addButtonClicked();
 		      }
 	    });
-		
-		panel.add(id_label);
-		panel.add(id_field);
-		panel.add(name_label);
-		panel.add(name_field);
-		panel.add(price_label);
-		panel.add(price_field);
-		panel.add(quantity_label);
-		panel.add(quantity_field);
-		panel.add(addItem);
+
 		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		return panel;
 	}
