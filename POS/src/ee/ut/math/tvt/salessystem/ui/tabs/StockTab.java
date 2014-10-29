@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -73,10 +74,10 @@ public class StockTab {
 	private Component drawStockMenuPane() {
 		JPanel panel = new JPanel();
 
-		/*GridBagConstraints gc = new GridBagConstraints();*/
 		GridBagLayout gb = new GridBagLayout();
-
+		//GridBagConstraints gc = new GridBagConstraints();
 		panel.setLayout(gb);
+		
 /*		gc.anchor = GridBagConstraints.LINE_START;
 		gc.gridheight = GridBagConstraints.RELATIVE;*/
 
@@ -145,7 +146,9 @@ public class StockTab {
 		try {
 			id = Long.parseLong(id_field.getText());
 		} catch (NumberFormatException e){
-			System.out.println("ID must be a number!");
+			JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "ID must be an integer!", "Incorrect input", 
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		ArrayList<Long> stockIDs = new ArrayList<Long>();
@@ -154,14 +157,18 @@ public class StockTab {
     	}
 		for(Long stockItemID : stockIDs){
 			if(stockItemID == id){
-				System.out.println("ID must be unique!");
+				JPanel panel = new JPanel();
+				JOptionPane.showMessageDialog(panel, "ID number already in use!", "Incorrect input", 
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 		}
 
 		name = name_field.getText();
 		if(name.length() <= 0){
-			System.out.println("Name field is empty!");
+			JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Name field mustn't be empty!", "Incorrect input", 
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 	
@@ -170,7 +177,11 @@ public class StockTab {
 			price = (double)Math.round(price * 100) / 100;
 			System.out.println(price);
 		} catch (NumberFormatException e2){
-			System.out.println("Price must be a number (or maybe you used a comma instead of a dot?)");
+			JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Price must be a number (or maybe you used a "
+					+ "comma instead of a dot?)!", 
+					"Incorrect input", 
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 	
@@ -178,7 +189,9 @@ public class StockTab {
 			quantity = Integer.parseInt(quantity_field.getText());
 	
 		} catch (NumberFormatException e3){
-			System.out.println("Quantity must be a number");
+			JPanel panel = new JPanel();
+			JOptionPane.showMessageDialog(panel, "Quantity must be an integer!", "Incorrect input", 
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
