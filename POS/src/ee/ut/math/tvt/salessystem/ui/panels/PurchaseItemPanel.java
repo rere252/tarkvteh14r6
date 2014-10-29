@@ -37,7 +37,7 @@ public class PurchaseItemPanel extends JPanel {
     private JTextField priceField;
     private JTextField barCodeField;
 
-    private JComboBox<String> nameBox;
+    public static JComboBox<String> nameBox;
     
     private JButton addItemButton;
 
@@ -106,16 +106,6 @@ public class PurchaseItemPanel extends JPanel {
         	
         });
         
-        // Fill the dialog fields if the name box loses focus
-/*        nameBox.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-            }
-
-            public void focusLost(FocusEvent e) {
-                fillDialogFields();
-            }
-        });
-*/
         barCodeField.setEditable(false);
         priceField.setEditable(false);
    
@@ -151,7 +141,7 @@ public class PurchaseItemPanel extends JPanel {
         return panel;
     }
     
-    //Fill barcode box
+    //Fill name box
     public void fillNameBox(){
     	for(StockItem item : model.getWarehouseTableModel().getTableRows()){
     		nameBox.addItem(item.getName());
@@ -181,20 +171,6 @@ public class PurchaseItemPanel extends JPanel {
     }
     
     
-
-    // Search the warehouse for a StockItem with the bar code entered
-    // to the barCode textfield.
-/*    private StockItem getStockItemByBarcode() {
-        try {
-            //int code = Integer.parseInt((String)barCodeField.getItemAt(0));
-        	int code = Integer.parseInt(barCodeBox.getSelectedItem().toString());
-            return model.getWarehouseTableModel().getItemById(code);
-        } catch (NumberFormatException ex) {
-            return null;
-        } catch (NoSuchElementException ex) {
-            return null;
-        }
-    }*/
 
     /**
      * Add new item to the cart.
@@ -258,7 +234,6 @@ public class PurchaseItemPanel extends JPanel {
     public void reset() {
         barCodeField.setText("");
         quantityField.setText("1");
-        //nameField.setText("");
         priceField.setText("");
     }
 

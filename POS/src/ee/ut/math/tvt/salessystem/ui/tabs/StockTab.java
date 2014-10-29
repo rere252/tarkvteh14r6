@@ -4,6 +4,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -197,6 +198,8 @@ public class StockTab {
 		
 		newStockItem = new StockItem(id, name, price, quantity);
 		model.getWarehouseTableModel().addItem(newStockItem);
+		
+		PurchaseItemPanel.nameBox.addItem(newStockItem.getName());
 		
 		cleanUpAdd();
 	}
