@@ -10,9 +10,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,7 +27,16 @@ import javax.swing.table.JTableHeader;
 public class StockTab {
 
 	private JButton addItem;
-
+	private JTextField id_field;
+	private JTextField name_field;
+	private JTextField price_field;
+	private JTextField quantity_field;
+	
+	private JLabel id_label;
+	private JLabel name_label;
+	private JLabel price_label;
+	private JLabel quantity_label;
+		
 	SalesSystemModel model;
 	Long id;
 	String name;
@@ -66,25 +75,46 @@ public class StockTab {
 	private Component drawStockMenuPane() {
 		JPanel panel = new JPanel();
 
-		GridBagConstraints gc = new GridBagConstraints();
+		/*GridBagConstraints gc = new GridBagConstraints();*/
 		GridBagLayout gb = new GridBagLayout();
 
 		panel.setLayout(gb);
+/*		gc.anchor = GridBagConstraints.LINE_START;
+		gc.gridheight = GridBagConstraints.RELATIVE;*/
 
-		gc.anchor = GridBagConstraints.NORTHWEST;
-		gc.weightx = 0;
+/*		gc.anchor = GridBagConstraints.NORTHWEST;
+		gc.weightx = 0;*/
 
 		addItem = new JButton("Add");
-		gc.gridwidth = GridBagConstraints.RELATIVE;
-		gc.weightx = 1.0;
 		
-
+		id_label = new JLabel("Id: ");
+		name_label = new JLabel("Name: ");
+		price_label = new JLabel("Price: ");
+		quantity_label = new JLabel("Quantity: ");
+		
+		id_field = new JTextField("", 5);
+		name_field = new JTextField("", 15);
+		price_field = new JTextField("", 5);
+		quantity_field = new JTextField("", 5);		
+		
+		//gc.gridwidth = GridBagConstraints.RELATIVE;
+		//gc.weightx = 1.0;
+		
 		addItem.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
 		    	  addButtonClicked();
 		      }
 	    });
-		panel.add(addItem, gc);
+		
+		panel.add(id_label);
+		panel.add(id_field);
+		panel.add(name_label);
+		panel.add(name_field);
+		panel.add(price_label);
+		panel.add(price_field);
+		panel.add(quantity_label);
+		panel.add(quantity_field);
+		panel.add(addItem);
 		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		return panel;
 	}
@@ -112,69 +142,59 @@ public class StockTab {
 		panel.setBorder(BorderFactory.createTitledBorder("Warehouse status"));
 		return panel;
 	}
+	
 	private void addButtonClicked(){
-		AddItemScreen();
-	}
-//Adding new items to the warehouse
-public void AddItemScreen(){
-	final JFrame new_frame=new JFrame();
-	int width = 800;
-	final int height = 150;
-	JPanel panel = new JPanel();
-	final JTextField id_field = new JTextField("", 5);
-	final JTextField name_field = new JTextField("", 15);
-	final JTextField price_field = new JTextField("", 5);
-	final JTextField quantity_field = new JTextField("", 5);
-	
-	JLabel id_label = new JLabel("Id: ");
-	JLabel name_label = new JLabel("Name: ");
-	JLabel price_label = new JLabel("Price: ");
-	JLabel quantity_label = new JLabel("Quantity: ");
-	
-	//Creating confirm and cancel buttons
-	JButton confirm = new JButton("confirm");
-	final JButton cancel = new JButton("cancel");
-	
-	panel.add(confirm);
-	panel.add(cancel);
-	
-	panel.add(id_label);
-	panel.add(id_field);
-	panel.add(name_label);
-	panel.add(name_field);
-	panel.add(price_label);
-	panel.add(price_field);
-	panel.add(quantity_label);
-	panel.add(quantity_field);
-
-    //Adding items to the list
-	confirm.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
+		try {
 			id = Long.parseLong(id_field.getText());
-			name = name_field.getText();
-			price = Double.parseDouble(price_field.getText());
-			quantity = Integer.parseInt(quantity_field.getText());
-			if (id > 0 && name != ""  && price >= 0 && quantity > 0) {
-				newStockItem = new StockItem(id, name, price, quantity);
-				StockTableModel model_uus = model.getWarehouseTableModel();
-				model_uus.addItem(newStockItem);
-				new_frame.setVisible(false);
-				addItem.setEnabled(true);
-			} else {
-				new_frame.setVisible(false);
-				addItem.setEnabled(true);
+			ArrayList<Long> stockIDs = new ArrayList<Long>();
+			for(StockItem item : model.getWarehouseTableModel().getTableRows()){
+	    		stockIDs.add(item.getId());
+	    	}
+			for(Long stockItemID : stockIDs){
+				if(stockItemID == id){
+					System.out.println("ID must be unique!");
+					return;
+				}
 			}
+		} catch (NumberFormatException e){
+			System.out.println("ID must be a number!");
+			return;
 		}
-	});
+		
+		name = name_field.getText();
+		if(name.length() <= 0){
+			System.out.println("Name field is empty!");
+			return;
+		}
+		
+		try {
+			price = Double.parseDouble(price_field.getText());
+			price = (double)Math.round(price * 100) / 100;
+			System.out.println(price);
+		} catch (NumberFormatException e2){
+			System.out.println("Price must be a number (or maybe you used a comma instead of a dot?)");
+			return;
+		}
+		
+		try {
+			quantity = Integer.parseInt(quantity_field.getText());
+		} catch (NumberFormatException e3){
+			System.out.println("Quantity must be a number");
+			return;
+		}
+		
+		newStockItem = new StockItem(id, name, price, quantity);
+		model.getWarehouseTableModel().addItem(newStockItem);
+		
+		cleanUpAdd();
+		
+	}
 
-	cancel.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			new_frame.setVisible(false);
-		}
-	});
-	new_frame.add(panel);
-	new_frame.setTitle("Adding products to warehouse");
-	new_frame.setSize(width, height);
-	new_frame.setVisible(true);
-}
+	private void cleanUpAdd() {		
+		id_field.setText(null);
+		name_field.setText(null);
+		price_field.setText(null);
+		quantity_field.setText(null);
+	}
+	
 }
