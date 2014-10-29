@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -114,6 +114,7 @@ public class StockTab {
 	}
 	private void addButtonClicked(){
 		AddItemScreen();
+		
 	}
 //Adding new items to the warehouse
 public void AddItemScreen(){
@@ -148,8 +149,10 @@ public void AddItemScreen(){
 	panel.add(quantity_field);
 
     //Adding items to the list
-	confirm.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
+	confirm.addActionListener(new ActionListener(){
+		
+		public void actionPerformed(ActionEvent e){
+			try{
 			id = Long.parseLong(id_field.getText());
 			name = name_field.getText();
 			price = Double.parseDouble(price_field.getText());
@@ -160,12 +163,19 @@ public void AddItemScreen(){
 				model_uus.addItem(newStockItem);
 				new_frame.setVisible(false);
 				addItem.setEnabled(true);
+				
 			} else {
 				new_frame.setVisible(false);
 				addItem.setEnabled(true);
 			}
 		}
+		catch(Exception e1){
+			JOptionPane.showMessageDialog(null, "Incorrect data. Check your input!","Warning",JOptionPane.WARNING_MESSAGE);
+		}
+		}
 	});
+	
+	
 
 	cancel.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
