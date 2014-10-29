@@ -4,7 +4,6 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -146,27 +144,27 @@ public class StockTab {
 	private void addButtonClicked(){
 		try {
 			id = Long.parseLong(id_field.getText());
-			ArrayList<Long> stockIDs = new ArrayList<Long>();
-			for(StockItem item : model.getWarehouseTableModel().getTableRows()){
-	    		stockIDs.add(item.getId());
-	    	}
-			for(Long stockItemID : stockIDs){
-				if(stockItemID == id){
-					System.out.println("ID must be unique!");
-					return;
-				}
-			}
 		} catch (NumberFormatException e){
 			System.out.println("ID must be a number!");
 			return;
 		}
-		
+		ArrayList<Long> stockIDs = new ArrayList<Long>();
+		for(StockItem item : model.getWarehouseTableModel().getTableRows()){
+    		stockIDs.add(item.getId());
+    	}
+		for(Long stockItemID : stockIDs){
+			if(stockItemID == id){
+				System.out.println("ID must be unique!");
+				return;
+			}
+		}
+
 		name = name_field.getText();
 		if(name.length() <= 0){
 			System.out.println("Name field is empty!");
 			return;
 		}
-		
+	
 		try {
 			price = Double.parseDouble(price_field.getText());
 			price = (double)Math.round(price * 100) / 100;
@@ -175,9 +173,10 @@ public class StockTab {
 			System.out.println("Price must be a number (or maybe you used a comma instead of a dot?)");
 			return;
 		}
-		
+	
 		try {
 			quantity = Integer.parseInt(quantity_field.getText());
+	
 		} catch (NumberFormatException e3){
 			System.out.println("Quantity must be a number");
 			return;
@@ -187,7 +186,6 @@ public class StockTab {
 		model.getWarehouseTableModel().addItem(newStockItem);
 		
 		cleanUpAdd();
-		
 	}
 
 	private void cleanUpAdd() {		
