@@ -3,6 +3,8 @@ package ee.ut.math.tvt.salessystem.ui.panels;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,8 +37,8 @@ public class PaymentPanel {
 	private static JLabel amountPaid;
 	private static JLabel returnMoney;
 	private static JLabel totalSum;
+	private static JLabel change;
 	private static JTextField paidAmount;
-	private static JTextField change;
 	private static JButton acceptButton;
 	private static JButton cancelButton;
 	private static PurchaseInfoTableModel parent;
@@ -44,17 +46,9 @@ public class PaymentPanel {
 
     public static void show(final PurchaseInfoTableModel cart_forwarded, 
 							final PurchaseTab tabPurchase) {
-            purchaseTab = tabPurchase;
-			currentCart = cart_forwarded;
-            confirm();           
-            // And make sure the "Commit" button is always unavailable at first
-            acceptButton.setEnabled(false);
-            // Display the window:
-            paymentFrame.pack();
-            paymentFrame.setVisible(true);   
-        }
-    
-    private static void confirm(){    	
+		//Initialize class variables. 
+        purchaseTab = tabPurchase;
+		currentCart = cart_forwarded;
     	if(!confirmed){    		
 			//Frame
     		JFrame paymentFrame = new JFrame("Payment");
@@ -76,51 +70,55 @@ public class PaymentPanel {
     		panel.add(totalSum);    		
     		JLabel amountPaid = new JLabel("Amount paid:");
     		panel.add(amountPaid);	
-    		JTextField paidAmount = new JTextField();
+    		paidAmount = new JTextField();
     		panel.add(paidAmount);
+			paidAmount.addKeyListener(new KeyListener(){
+ 				public void keyPressed(KeyEvent e){}
+				public void keyReleased(KeyEvent e){updateChange(); }
+				public void keyTyped(KeyEvent e){}
+			});
     		JLabel returnMoney = new JLabel("Change:");
     		panel.add(returnMoney);
-    		JTextField change= new JTextField();
+    		change= new JLabel(String.valueOf(0-(Double.parseDouble(totalSum.getText()))));
     		panel.add(change);
 			//Buttons
     		JButton acceptButton = new JButton("Accept");
     		panel.add(acceptButton);
     		acceptButton.addActionListener(new ActionListener() {
-    		      public void actionPerformed(ActionEvent e) {
-    		    	  purchaseTab.acceptPurchaseButtonClicked();
-    		        }
-    		      });
+    		    public void actionPerformed(ActionEvent e) {
+					try {
+						double cash = (Double.parseDouble(paidAmount.getText()))-sumTotal;
+						if (cash >= 0) {
+							purchaseTab.acceptPurchaseButtonClicked();
+						} else {
+							JOptionPane.showMessageDialog(null,
+                    			   "Insufficient amount paid.");
+						}
+					} catch (NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null,
+                    "Amount paid must be number.");
+					}					
+				}
+    		});
     		JButton cancelButton = new JButton("Cancel");
     		panel.add(cancelButton);
     		cancelButton.addActionListener (new ActionListener() {
-    			 public void actionPerformed(ActionEvent e) {
-   		    	  purchaseTab.cancelPayment();
-   		    	  cancelPayment();	  
+				public void actionPerformed(ActionEvent e) {
+					purchaseTab.cancelPayment();
+   		    		cancelPayment();	 
    		        }
     		});  		
 			//Set confirmed to true.
     		confirmed = true;	
-    	}
+    	}          
+        // Display the window:
+        paymentFrame.pack();
+        paymentFrame.setVisible(true);   
     }
     
     private static void cancelPayment() {
     	paymentFrame.setVisible(false);
     }
-    
- /*   private static void okButtonClikked(){
-    	double cash = 0.0;
-        try {
-            cash = Double.parseDouble(paidAmount.getText());
-        } catch (NumberFormatException nfe) {}
-        double returnMoney = cash - Double.parseDouble(totalSum.getText());
-        change.setText(Double.toString(returnMoney));
-        if (returnMoney >= 0) {
-            acceptButton.setEnabled(true);
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "Not enough cash entered.");
-        }
-    } */
 
 	private static double calculateTotal(List<SoldItem> items) {
 		double total = 0.00; 
@@ -129,6 +127,13 @@ public class PaymentPanel {
 		}
 		sumTotal = total; 
 		return total;
+	}
+	
+	private static void updateChange() {
+		try {
+            double cash = Double.parseDouble(paidAmount.getText());
+			change.setText(String.valueOf(cash-sumTotal));
+        } catch (NumberFormatException nfe) {}
 	}
     
 }
