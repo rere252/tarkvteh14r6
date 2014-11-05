@@ -10,13 +10,43 @@
 	<property name="repoName" value="tarkv14r6.git"/>
 	<property file="application.properties"/>
 
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
 	
-	<path id="classpath">
+	<!--<path id="classpath">
 		<pathelement location="${build.classes.dir}"/>
 		<fileset dir="${lib.dir}" includes="**/*.jar"/>
 		<fileset dir="img" includes="**/*.jpg"/>
+	</path>-->
+	
+	<path id="run.classpath">
+	        <pathelement location="${build.classes.dir}"/>
+	        <!-- configuration -->
+	        <pathelement location="${conf.dir}"/>		
+			<fileset dir="img" includes="**/*.jpg"/>	
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
 	</path>
 	
+	<path id="compile.classpath">
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
+	</path>
+
 	
 	<target name="clean" description="Clean up build system results">
 		<delete dir="${build.dir}"/>
@@ -25,7 +55,7 @@
 
 	<target name="run" depends="build" description="Run the POS">
 		<java classname="${main.class}" 
-			classpathref="classpath" 
+			classpathref="run.classpath" 
 			fork="yes" />
 		<!-- EI TOIMI! -->
 	<!--<jvmarg value="-Xdebug" />
@@ -49,7 +79,7 @@
             target="1.7"
             source="1.7"
 			includeantruntime="false">
-			<classpath refid="classpath"/>
+			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
 	
@@ -101,6 +131,26 @@
 		<input message="Insert username:" addproperty="username"/>
 		<input message="Insert password:" addproperty="password"/>
 		<tag tagnumber="${tagnr}" tagcomment="${tagcomment}" user="${username}" password="${password}"/>
+	</target>
+	
+	<target name="dbmanager" description="Start the HSQLDB manager">
+	        <java
+	            classname="org.hsqldb.util.DatabaseManagerSwing"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="--user sa --url ${db.url}" />
+	        </java>
+	    </target>
+
+	    <target name="startdb" description="Start the HSQLDB with the default params">
+	        <java
+	            classname="org.hsqldb.Server"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
+	        </java>
 	</target>
 	
 	<macrodef name="tag">
