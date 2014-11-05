@@ -10,7 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
+import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 
 import java.util.List;
@@ -21,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 public class PaymentPanel {	
 	//Logger, serial version.
@@ -90,6 +94,7 @@ public class PaymentPanel {
     					if (cash >= 0) {
     						purchaseTab.acceptPurchaseButtonClicked();
     						paymentFrame.setVisible(false);
+    						newQuantity(null, null);
     						
     					} else {
     						JOptionPane.showMessageDialog(null,
@@ -140,4 +145,14 @@ public class PaymentPanel {
         } catch (NumberFormatException nfe) {}
 	}
     
+	private static void newQuantity(final List<SoldItem> items, 
+			final List<StockItem> stocks){
+		for (SoldItem item : items){
+			for(StockItem stock : stocks){
+				if (stock.getId() == item.getId()){
+					stock.setQuantity(stock.getQuantity()-item.getQuantity());
+								}					
+			}
+			}
+	}
 }
