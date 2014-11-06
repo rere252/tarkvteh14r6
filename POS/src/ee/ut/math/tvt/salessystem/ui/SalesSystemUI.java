@@ -49,7 +49,6 @@ public class SalesSystemUI extends JFrame {
   public SalesSystemUI(final SalesDomainController domainController) {
     this.domainController = domainController;
     this.model = new SalesSystemModel(domainController);
-    this.setFocusable(true);//Needed for addKeyListener
 
     // Create singleton instances of the tab classes
     historyTab = new HistoryTab();
@@ -81,23 +80,6 @@ public class SalesSystemUI extends JFrame {
     	domainController.endSession();
         System.exit(0);
       }
-    });
-    
-    // Closes the db connection when the key 'q' is pressed
-    this.addKeyListener(new KeyListener(){
-
-		@Override
-		public void keyTyped(KeyEvent e) {}
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyChar() == 'q'){
-				domainController.endSession();
-			}	
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {}
-    	
     });
   }
 

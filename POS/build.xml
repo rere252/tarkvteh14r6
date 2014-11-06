@@ -114,7 +114,7 @@
 	</target>
 	
 	<target name="runc" depends="build" description="Run the application (console)">
-		<java classname="${main.class}" classpathref="classpath" fork="yes">
+		<java classname="${main.class}" classpathref="run.classpath" fork="yes">
 			<arg value="console" />
 		</java>
 	</target>
