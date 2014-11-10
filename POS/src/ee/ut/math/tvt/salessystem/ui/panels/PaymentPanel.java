@@ -9,12 +9,17 @@ import java.awt.event.KeyListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
+import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -93,6 +98,13 @@ public class PaymentPanel {
     					double cash = (Double.parseDouble(paidAmount.getText()))-sumTotal;
     					if (cash >= 0) {
     						purchaseTab.acceptPurchaseButtonClicked();
+    						DateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+							DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
+							Date date = new Date();
+							String today=dateFormat1.format(date); 
+							String time=dateFormat2.format(date);
+							HistoryItem newHistoryItem = new HistoryItem(time, today, sumTotal);
+							//HistoryTab.draw(newHistoryItem);
     						paymentFrame.setVisible(false);
     						newQuantity(null, null);
     						
