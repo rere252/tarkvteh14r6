@@ -51,7 +51,6 @@ public class ConsoleUI {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					System.in));
 			String command = "";
-
 			while (true) {
 				System.out.print("> ");
 				command = in.readLine();
@@ -91,6 +90,7 @@ public class ConsoleUI {
 				.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
 		System.out.println("p\t\tPurchase the shopping cart");
 		System.out.println("r\t\tReset the shopping cart");
+		System.out.println("q\t\tEnd the database session");
 		System.out.println("-------------------------");
 	}
 
@@ -137,6 +137,8 @@ public class ConsoleUI {
 			StockItem item = getStockItemById(idx);
 			item.setQuantity(Math.min(amount, item.getQuantity()));
 			cart.add(item);
+		} else if (c[0].equals("q")) {
+	    	dc.endSession();
 		}
 	}
 	

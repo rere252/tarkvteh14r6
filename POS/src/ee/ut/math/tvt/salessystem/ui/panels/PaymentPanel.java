@@ -151,8 +151,8 @@ public class PaymentPanel {
 			for(StockItem stock : stocks){
 				if (stock.getId() == item.getId()){
 					stock.setQuantity(stock.getQuantity()-item.getQuantity());
-								}					
+				}					
 			}
-			}
+		}
 	}
 }

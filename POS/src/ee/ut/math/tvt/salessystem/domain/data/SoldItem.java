@@ -19,8 +19,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Id
     private Long id;
 	@ManyToOne
-	@MapsId
-	@JoinColumn(name = "SoldItemId")
+	@JoinColumn(name = "stockitemId")
     private StockItem stockItem;
     @Column(name = "name")
     private String name;
@@ -35,7 +34,6 @@ public class SoldItem implements Cloneable, DisplayableItem {
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
         this.quantity = quantity;
-        
     }
     
     
