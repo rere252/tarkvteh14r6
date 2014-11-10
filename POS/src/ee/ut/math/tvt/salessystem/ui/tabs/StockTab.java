@@ -5,6 +5,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -24,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
+import org.hibernate.Session;
+
 public class StockTab {
 
 	private JButton addItem;
@@ -36,6 +39,8 @@ public class StockTab {
 	private JLabel name_label;
 	private JLabel price_label;
 	private JLabel quantity_label;
+	
+	private Session session = HibernateUtil.currentSession();
 		
 	SalesSystemModel model;
 	Long id;
@@ -213,7 +218,10 @@ public class StockTab {
 		
 		newStockItem = new StockItem(id, name, price, quantity);
 		model.getWarehouseTableModel().addItem(newStockItem);
-		
+		//Lisa toode ka andmebaasi
+		session.beginTransaction();
+		session.saveOrUpdate(newStockItem);
+		session.getTransaction().commit();
 		PurchaseItemPanel.nameBox.addItem(newStockItem.getName());
 		
 		cleanUpAdd();
