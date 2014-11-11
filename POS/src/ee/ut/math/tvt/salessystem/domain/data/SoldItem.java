@@ -33,7 +33,17 @@ public class SoldItem implements Cloneable, DisplayableItem {
     private double price;
     @ManyToOne
     @JoinColumn(name = "sale_id")
-    private HistoryItem saleId;
+    private HistoryItem historyItem;
+    
+ /*   public SoldItem(StockItem stockItem, int quantity, HistoryItem hI) {
+        this.stockItem = stockItem;
+        this.id = stockItem.getId();
+        this.name = stockItem.getName();
+        this.price = stockItem.getPrice();
+        this.quantity = quantity;
+        this.historyItem = hI;
+    }*/
+    
     
     public SoldItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;
@@ -41,10 +51,10 @@ public class SoldItem implements Cloneable, DisplayableItem {
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
         this.quantity = quantity;
-    }
-    
-    
-    public Long getId() {
+	}
+
+
+	public Long getId() {
         return id;
     }
     
@@ -86,6 +96,14 @@ public class SoldItem implements Cloneable, DisplayableItem {
 
     public void setStockItem(StockItem stockItem) {
         this.stockItem = stockItem;
+    }
+    
+    public void setHistoryItem(HistoryItem hs){
+    	this.historyItem = hs;
+    }
+    
+    public HistoryItem getHistoryItem(){
+    	return this.historyItem;
     }
     
 }

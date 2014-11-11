@@ -15,9 +15,6 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
-import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
-import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
@@ -32,8 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
+
 
 public class PaymentPanel {	
 	//Logger, serial version.
@@ -65,6 +61,7 @@ public class PaymentPanel {
 		model = SSmodel;
         purchaseTab = tabPurchase;
 		currentCart = model.getCurrentPurchaseTableModel();
+		System.out.println(currentCart.toString());
     	if(!confirmed){    		
 			//Frame
     		paymentFrame = new JFrame("Payment");
@@ -105,19 +102,20 @@ public class PaymentPanel {
     					double cash = (Double.parseDouble(paidAmount.getText()))-sumTotal;
     					if (cash >= 0) {
     						purchaseTab.acceptPurchaseButtonClicked();
-    						DateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
-							DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
-							Date date = new Date();
-							String today=dateFormat1.format(date); 
-							String time=dateFormat2.format(date);
 							HistoryItem newHistoryItem = new HistoryItem(sumTotal);
 							model.getHistoryTableModel().addItem(newHistoryItem);
-							//Lisa toode ka andmebaasi
+							//Add sale to history db
 							session.beginTransaction();
 							session.saveOrUpdate(newHistoryItem);
 							session.getTransaction().commit();
-							
-
+							//Add cart contents to sold items table
+							for(SoldItem si : currentCart.getTableRows()){
+								si.setHistoryItem(newHistoryItem);
+								System.out.println(si.toString());
+								session.beginTransaction();
+								session.saveOrUpdate(si);
+								session.getTransaction().commit();
+							}
     						paymentFrame.setVisible(false);
     						updateStockQuantity(currentCart.getTableRows());	
     					} else {
@@ -140,8 +138,8 @@ public class PaymentPanel {
     		    	paymentFrame.setVisible(false);    	
     			}
     		});  
-			//Set confirmed to true.
-    		confirmed = true;	
+			//Set confirmed to true. MILLEKS, rikub sumtotali reseti.
+    		//confirmed = true;	
     	}          
         // Display the window:
         paymentFrame.setVisible(true);   
