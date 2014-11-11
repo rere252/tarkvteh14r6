@@ -2,10 +2,13 @@ package ee.ut.math.tvt.salessystem.domain.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -17,9 +20,10 @@ import javax.persistence.Table;
 @Table(name="SOLDITEM")
 public class SoldItem implements Cloneable, DisplayableItem {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	@ManyToOne
-	@JoinColumn(name = "stockitemId")
+	@JoinColumn(name = "stockitem_id")
     private StockItem stockItem;
     @Column(name = "name")
     private String name;
@@ -27,6 +31,9 @@ public class SoldItem implements Cloneable, DisplayableItem {
     private Integer quantity;
     @Column(name = "price")
     private double price;
+    @ManyToOne
+    @JoinColumn(name = "sale_id")
+    private HistoryItem saleId;
     
     public SoldItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;

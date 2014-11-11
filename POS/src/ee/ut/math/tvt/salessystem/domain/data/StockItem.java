@@ -15,7 +15,6 @@ import javax.persistence.Table;
 @Table(name = "STOCKITEM")
 public class StockItem implements Cloneable, DisplayableItem {
 	
-	//note hilisemaks: vb siiski tarvilik GeneratedValued kasutada
 	@Id
     private Long id;
 	@Column(name = "name")

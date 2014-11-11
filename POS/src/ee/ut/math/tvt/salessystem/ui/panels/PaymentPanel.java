@@ -103,7 +103,7 @@ public class PaymentPanel {
 							Date date = new Date();
 							String today=dateFormat1.format(date); 
 							String time=dateFormat2.format(date);
-							HistoryItem newHistoryItem = new HistoryItem(time, today, sumTotal);
+							//HistoryItem newHistoryItem = new HistoryItem(time, today, sumTotal);
 							//HistoryTab.draw(newHistoryItem);
     						paymentFrame.setVisible(false);
     						newQuantity(null, null);

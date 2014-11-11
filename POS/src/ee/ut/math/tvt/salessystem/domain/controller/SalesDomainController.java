@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.domain.controller;
 
 import java.util.List;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -11,7 +12,8 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
  * processes.
  */
 public interface SalesDomainController {
-
+	//List of sales made //
+	public List<HistoryItem> loadSalesHistory();
     /**
      * Load the current state of the warehouse.
      * 
@@ -19,7 +21,6 @@ public interface SalesDomainController {
      *         ee.ut.math.tvt.salessystem.domain.data.StockItem}s.
      */
     public List<StockItem> loadWarehouseState();
-
     // business processes
     /**
      * Initiate new business transaction - purchase of the goods.

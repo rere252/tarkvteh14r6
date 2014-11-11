@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
@@ -34,11 +35,13 @@ public class StockTab {
 	private JTextField name_field;
 	private JTextField price_field;
 	private JTextField quantity_field;
+	private JTextField description_field;
 	
 	private JLabel id_label;
 	private JLabel name_label;
 	private JLabel price_label;
 	private JLabel quantity_label;
+	private JLabel description_label;
 	
 	private Session session = HibernateUtil.currentSession();
 		
@@ -101,32 +104,44 @@ public class StockTab {
 		gc.gridx = 6;
 		panel.add(quantity_label, gc);
 		
-		gc.weightx = 1;
+		description_label = new JLabel(" Description: ");
+		gc.gridx = 8;
+		panel.add(description_label, gc);
+		
+		gc.weightx = 0.1;
 		
 		id_field = new JTextField();
 		gc.gridx = 1;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(id_field, gc);
 		
+		gc.weightx = 0.3;
 		name_field = new JTextField();
 		gc.gridx = 3;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(name_field, gc);
 			
-		gc.weightx = 0.3;
+		gc.weightx = 0.1;
 		price_field = new JTextField();
 		gc.gridx = 5;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(price_field, gc);
 		
-		gc.weightx = 0.2;
+		gc.weightx = 0.1;
 		quantity_field = new JTextField();	
 		gc.gridx = 7;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		panel.add(quantity_field, gc);
 		
+		gc.weightx = 0.3;
+		description_field = new JTextField();
+		gc.gridx = 9;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(description_field, gc);
+		
+		gc.weightx = 0.1;
 		addItem = new JButton("Add");
-		gc.gridx = 8;
+		gc.gridx = 10;
 		panel.add(addItem, gc);
 			
 		addItem.addActionListener(new ActionListener() {
@@ -139,7 +154,14 @@ public class StockTab {
 		return panel;
 	}
 
-	// table of the wareshouse stock
+/*	protected void historyAddTest() {
+		HistoryItem testHistoryItem = new HistoryItem(20);
+		session.beginTransaction();
+		session.saveOrUpdate(testHistoryItem);
+		session.getTransaction().commit();
+	}*/
+
+	// table of the warehouse stock
 	private Component drawStockMainPane() {
 		JPanel panel = new JPanel();
 
@@ -176,14 +198,15 @@ public class StockTab {
 		for(StockItem item : model.getWarehouseTableModel().getTableRows()){
     		stockIDs.add(item.getId());
     	}
-		for(Long stockItemID : stockIDs){
+
+/*		for(Long stockItemID : stockIDs){
 			if(stockItemID == id){
 				JPanel panel = new JPanel();
 				JOptionPane.showMessageDialog(panel, "ID number already in use!", "Incorrect input", 
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-		}
+		}*/
 
 		name = name_field.getText();
 		if(name.length() <= 0){
