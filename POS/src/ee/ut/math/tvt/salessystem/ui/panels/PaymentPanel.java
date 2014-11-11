@@ -109,9 +109,9 @@ public class PaymentPanel {
 							session.saveOrUpdate(newHistoryItem);
 							session.getTransaction().commit();
 							//Add cart contents to sold items table
+							System.out.println(model.getCurrentPurchaseTableModel().getTableRows());
 							for(SoldItem si : currentCart.getTableRows()){
 								si.setHistoryItem(newHistoryItem);
-								System.out.println(si.toString());
 								session.beginTransaction();
 								session.saveOrUpdate(si);
 								session.getTransaction().commit();
