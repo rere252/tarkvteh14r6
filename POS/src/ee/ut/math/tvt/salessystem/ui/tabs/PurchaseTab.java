@@ -136,7 +136,9 @@ public class PurchaseTab {
 
   /** Event handler for the <code>submit purchase</code> event. */  
   protected void submitPurchaseButtonClicked(){
-	  PaymentPanel.show(model, this);
+	  //PaymentPanel.show(model, this);
+	  PaymentPanel pp = new PaymentPanel();
+	  pp.show(model, this);
   }
   
   public void acceptPurchaseButtonClicked() {

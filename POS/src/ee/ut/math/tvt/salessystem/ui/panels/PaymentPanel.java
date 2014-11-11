@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -18,6 +19,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerIm
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,8 +56,10 @@ public class PaymentPanel {
 	private static JButton acceptButton;
 	private static JButton cancelButton;
     private static boolean confirmed = false;
+	private Session session = HibernateUtil.currentSession();		
 
-    public static void show(SalesSystemModel SSmodel, 
+
+    public void show(SalesSystemModel SSmodel, 
 							PurchaseTab tabPurchase) {
 		//Initialize class variables. 
 		model = SSmodel;
@@ -106,9 +110,13 @@ public class PaymentPanel {
 							Date date = new Date();
 							String today=dateFormat1.format(date); 
 							String time=dateFormat2.format(date);
-
-							//HistoryItem newHistoryItem = new HistoryItem(time, today, sumTotal);
-							//HistoryTab.draw(newHistoryItem);
+							HistoryItem newHistoryItem = new HistoryItem(sumTotal);
+							model.getHistoryTableModel().addItem(newHistoryItem);
+							//Lisa toode ka andmebaasi
+							session.beginTransaction();
+							session.saveOrUpdate(newHistoryItem);
+							session.getTransaction().commit();
+							
 
     						paymentFrame.setVisible(false);
     						updateStockQuantity(currentCart.getTableRows());	
