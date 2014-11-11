@@ -13,6 +13,8 @@ import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
@@ -36,6 +38,7 @@ public class PaymentPanel {
 	private static final Logger log = LogManager.getLogger(PaymentPanel.class);
 	private static final long serialVersionUID = 1L;
 	// Variables.
+	private static SalesSystemModel model;
 	private static PurchaseTab purchaseTab;
 	private static PurchaseInfoTableModel currentCart;
 	private static double sumTotal; 
@@ -52,11 +55,12 @@ public class PaymentPanel {
 	private static JButton cancelButton;
     private static boolean confirmed = false;
 
-    public static void show(final PurchaseInfoTableModel cart_forwarded, 
-							final PurchaseTab tabPurchase) {
+    public static void show(SalesSystemModel SSmodel, 
+							PurchaseTab tabPurchase) {
 		//Initialize class variables. 
+		model = SSmodel;
         purchaseTab = tabPurchase;
-		currentCart = cart_forwarded;
+		currentCart = model.getCurrentPurchaseTableModel();
     	if(!confirmed){    		
 			//Frame
     		paymentFrame = new JFrame("Payment");
@@ -90,7 +94,6 @@ public class PaymentPanel {
     		change= new JLabel(String.valueOf(0-(Double.parseDouble(totalSum.getText()))));
     		panel.add(change);
 			//Buttons
-    		
     		acceptButton = new JButton("Accept");
         	acceptButton.addActionListener(new ActionListener() {
     		    public void actionPerformed(ActionEvent e) {
@@ -103,11 +106,12 @@ public class PaymentPanel {
 							Date date = new Date();
 							String today=dateFormat1.format(date); 
 							String time=dateFormat2.format(date);
+
 							//HistoryItem newHistoryItem = new HistoryItem(time, today, sumTotal);
 							//HistoryTab.draw(newHistoryItem);
+
     						paymentFrame.setVisible(false);
-    						newQuantity(null, null);
-    						
+    						updateStockQuantity(currentCart.getTableRows());	
     					} else {
     						JOptionPane.showMessageDialog(null,
                     			   "Insufficient amount paid.");
@@ -119,19 +123,15 @@ public class PaymentPanel {
     	
     			}
     		});
-    		panel.add(acceptButton);
-    		
+    		panel.add(acceptButton);	
     		cancelButton = new JButton("Cancel");
     		panel.add(cancelButton);
     		cancelButton.addActionListener (new ActionListener() {
     			public void actionPerformed(ActionEvent e) {
     				purchaseTab.cancelPayment();
-    		    	paymentFrame.setVisible(false);
-    		    	
+    		    	paymentFrame.setVisible(false);    	
     			}
     		});  
-    		
-    		
 			//Set confirmed to true.
     		confirmed = true;	
     	}          
@@ -139,8 +139,6 @@ public class PaymentPanel {
         paymentFrame.setVisible(true);   
     }
    
-   
-
 	private static double calculateTotal(List<SoldItem> items) {
 		double total = 0.00; 
 		for (SoldItem item : items) {
@@ -157,14 +155,10 @@ public class PaymentPanel {
         } catch (NumberFormatException nfe) {}
 	}
     
-	private static void newQuantity(final List<SoldItem> items, 
-			final List<StockItem> stocks){
+	private static void updateStockQuantity(final List<SoldItem> items){
 		for (SoldItem item : items){
-			for(StockItem stock : stocks){
-				if (stock.getId() == item.getId()){
-					stock.setQuantity(stock.getQuantity()-item.getQuantity());
-				}					
-			}
+			model.getWarehouseTableModel().removeItem(item);
 		}
 	}
+
 }

@@ -8,16 +8,12 @@ import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 /**
  * Main model. Holds all the other models.
  */
-public class SalesSystemModel {
-    
+public class SalesSystemModel {    
     private static final Logger log = LogManager.getLogger(SalesSystemModel.class);
-
     // Warehouse model
-    private StockTableModel warehouseTableModel;
-    
+    private StockTableModel warehouseTableModel;   
     // Current shopping cart model
-    private PurchaseInfoTableModel currentPurchaseTableModel;
-    
+    private PurchaseInfoTableModel currentPurchaseTableModel;   
     // History table model
     private HistoryTableModel historyTableModel;
     
@@ -28,8 +24,7 @@ public class SalesSystemModel {
      * @param domainController Sales domain controller.
      */
     public SalesSystemModel(SalesDomainController domainController) {
-        this.domainController = domainController;
-        
+        this.domainController = domainController;       
         warehouseTableModel = new StockTableModel();
         currentPurchaseTableModel = new PurchaseInfoTableModel();
         historyTableModel = new HistoryTableModel();
@@ -37,7 +32,6 @@ public class SalesSystemModel {
         // populate stock model with data from the warehouse
         warehouseTableModel.populateWithData(domainController.loadWarehouseState());
         historyTableModel.populateWithData(domainController.loadSalesHistory());
-
     }
 
     public StockTableModel getWarehouseTableModel() {

@@ -33,12 +33,10 @@ public class PurchaseTab {
   private PurchaseItemPanel purchasePane;
   private SalesSystemModel model;
 
-
   public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
     this.domainController = controller;
     this.model = model;
   }
-
 
   /**
    * The purchase tab. Consists of the purchase menu, current purchase dialog and
@@ -73,7 +71,6 @@ public class PurchaseTab {
     panel.add(cancelPurchase, gc);
     return panel;
   }
-
 
   // Creates the button "New purchase"
   private JButton createNewPurchaseButton() {
@@ -125,7 +122,6 @@ public class PurchaseTab {
     }
   }
 
-
   /**  Event handler for the <code>cancel purchase</code> event. */
   protected void cancelPurchaseButtonClicked() {
     log.info("Sale cancelled");
@@ -138,11 +134,9 @@ public class PurchaseTab {
     }
   }
 
-
-  /** Event handler for the <code>submit purchase</code> event. */
-  
+  /** Event handler for the <code>submit purchase</code> event. */  
   protected void submitPurchaseButtonClicked(){
-	  PaymentPanel.show(model.getCurrentPurchaseTableModel(), this);
+	  PaymentPanel.show(model, this);
   }
   
   public void acceptPurchaseButtonClicked() {
@@ -222,4 +216,5 @@ public class PurchaseTab {
     gc.gridwidth = GridBagConstraints.RELATIVE;
     return gc;
   }
+
 }

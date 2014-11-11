@@ -37,20 +37,21 @@ public class StockTab {
 	private JTextField quantity_field;
 	private JTextField description_field;
 	
+
 	private JLabel id_label;
 	private JLabel name_label;
 	private JLabel price_label;
 	private JLabel quantity_label;
 	private JLabel description_label;
 	
-	private Session session = HibernateUtil.currentSession();
-		
-	SalesSystemModel model;
-	Long id;
-	String name;
-	double price;
-	int quantity;
-	StockItem newStockItem;
+	private Session session = HibernateUtil.currentSession();		
+	public SalesSystemModel model;
+	public Long id;
+	public String name;
+	public double price;
+	public int quantity;
+	public StockItem newStockItem;
+
 	
 	public StockTab(SalesDomainController controller, SalesSystemModel model) {
 		this.model = model;
@@ -60,18 +61,15 @@ public class StockTab {
 	public Component draw() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 		GridBagLayout gb = new GridBagLayout();
 		GridBagConstraints gc = new GridBagConstraints();
 		panel.setLayout(gb);
-
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gc.anchor = GridBagConstraints.NORTH;
 		gc.gridwidth = GridBagConstraints.REMAINDER;
 		gc.weightx = 1.0d;
 		gc.weighty = 0d;
 		panel.add(drawStockMenuPane(), gc);
-
 		gc.weighty = 1.0;
 		gc.fill = GridBagConstraints.BOTH;
 		panel.add(drawStockMainPane(), gc);
@@ -81,27 +79,23 @@ public class StockTab {
 	// warehouse menu
 	private Component drawStockMenuPane() {
 		JPanel panel = new JPanel();
-
 		GridBagLayout gb = new GridBagLayout();
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gc.gridheight = GridBagConstraints.RELATIVE;
-		panel.setLayout(gb);
-				
+		panel.setLayout(gb);		
 		id_label = new JLabel(" Id: ");
 		gc.gridx = 0;
 		panel.add(id_label, gc);
-		
 		name_label = new JLabel(" Name: ");
 		gc.gridx = 2;
-		panel.add(name_label, gc);
-	
+		panel.add(name_label, gc);	
 		price_label = new JLabel(" Price: ");
 		gc.gridx = 4;
-		panel.add(price_label, gc);
-		
+		panel.add(price_label, gc);		
 		quantity_label = new JLabel(" Quantity: ");
 		gc.gridx = 6;
+
 		panel.add(quantity_label, gc);
 		
 		description_label = new JLabel(" Description: ");
@@ -144,12 +138,12 @@ public class StockTab {
 		gc.gridx = 10;
 		panel.add(addItem, gc);
 			
+
 		addItem.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
 		    	  addButtonClicked();
 		      }
 	    });
-
 		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		return panel;
 	}
@@ -164,23 +158,17 @@ public class StockTab {
 	// table of the warehouse stock
 	private Component drawStockMainPane() {
 		JPanel panel = new JPanel();
-
 		JTable table = new JTable(model.getWarehouseTableModel());
-
 		JTableHeader header = table.getTableHeader();
 		header.setReorderingAllowed(false);
-
 		JScrollPane scrollPane = new JScrollPane(table);
-
 		GridBagConstraints gc = new GridBagConstraints();
 		GridBagLayout gb = new GridBagLayout();
 		gc.fill = GridBagConstraints.BOTH;
 		gc.weightx = 1.0;
 		gc.weighty = 1.0;
-
 		panel.setLayout(gb);
 		panel.add(scrollPane, gc);
-
 		panel.setBorder(BorderFactory.createTitledBorder("Warehouse status"));
 		return panel;
 	}
@@ -190,8 +178,10 @@ public class StockTab {
 			id = Long.parseLong(id_field.getText());
 		} catch (NumberFormatException e){
 			JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "ID must be an integer!", "Incorrect input", 
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(panel, 
+				"ID must be an integer!", 
+				"Incorrect input", 
+				 JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		ArrayList<Long> stockIDs = new ArrayList<Long>();
@@ -202,43 +192,44 @@ public class StockTab {
 /*		for(Long stockItemID : stockIDs){
 			if(stockItemID == id){
 				JPanel panel = new JPanel();
-				JOptionPane.showMessageDialog(panel, "ID number already in use!", "Incorrect input", 
-						JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(panel, 
+					"ID number already in use!",
+					"Incorrect input", 
+					 JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-		}*/
 
+		}*/
 		name = name_field.getText();
 		if(name.length() <= 0){
 			JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Name field mustn't be empty!", "Incorrect input", 
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(panel, 
+				"Name field mustn't be empty!",  													   					"Incorrect input", 
+				 JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-	
 		try {
 			price = Double.parseDouble(price_field.getText());
 			price = (double)Math.round(price * 100) / 100;
 			System.out.println(price);
 		} catch (NumberFormatException e2){
 			JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Price must be a number (or maybe you used a "
-					+ "comma instead of a dot?)!", 
-					"Incorrect input", 
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(panel, 
+				"Price must be a number (or maybe you used a comma instead of a dot?)!", 
+				"Incorrect input", 
+				JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-	
 		try {
 			quantity = Integer.parseInt(quantity_field.getText());
-	
 		} catch (NumberFormatException e3){
 			JPanel panel = new JPanel();
-			JOptionPane.showMessageDialog(panel, "Quantity must be an integer!", "Incorrect input", 
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(panel, 
+				"Quantity must be an integer!", 
+				"Incorrect input", 
+				 JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		
 		newStockItem = new StockItem(id, name, price, quantity);
 		model.getWarehouseTableModel().addItem(newStockItem);
 		//Lisa toode ka andmebaasi
@@ -246,7 +237,6 @@ public class StockTab {
 		session.saveOrUpdate(newStockItem);
 		session.getTransaction().commit();
 		PurchaseItemPanel.nameBox.addItem(newStockItem.getName());
-		
 		cleanUpAdd();
 	}
 

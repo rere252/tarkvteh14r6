@@ -19,9 +19,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	private Session session = HibernateUtil.currentSession();
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
-		// Let's assume we have checked and found out that the buyer is underaged and
-		// cannot buy chupa-chups
-		throw new VerificationFailedException("Underaged!");
 		// XXX - Save purchase
 	}
 
@@ -35,9 +32,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public List<StockItem> loadWarehouseState() {
-		// XXX mock implementation
 		@SuppressWarnings("unchecked")
 		List<StockItem> dataset = new ArrayList<StockItem>(session.createQuery("from StockItem").list());		
+
 		return dataset;
 	}
 	
