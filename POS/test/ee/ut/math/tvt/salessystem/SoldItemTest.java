@@ -7,6 +7,7 @@ public class SoldItemTest {
 	public void testGetSum(){
 		
 	}
+	@Test
 	public void testGetSumWithZeroQuantity(){
 		
 	}

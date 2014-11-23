@@ -7,12 +7,15 @@ public class StockTableModelTest {
 	public void testValidateNameUniqueness(){
 		
 	}
+	@Test
 	public void testHasEnoughInStock(){
 		
 	}
+	@Test
 	public void testGetItemByIdWhenItemExists(){
 		
 	}
+	@Test
 	public void testGetItemByIdWhenThrowsException(){
 		
 	}

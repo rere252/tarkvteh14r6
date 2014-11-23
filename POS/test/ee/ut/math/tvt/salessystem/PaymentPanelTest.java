@@ -7,12 +7,15 @@ public class PaymentPanelTest {
 	public void testAddSoldItem(){
 		
 	}
+	@Test
 	public void testGetSumWithNoItems(){
 		
 	}
+	@Test
 	public void testGetSumWithOneItem(){
 		
 	}
+	@Test
 	public void testGetSumWithMultipleItems(){
 		
 	}
