@@ -188,5 +188,11 @@ public class StockTab {
             );
         }
     }
+    
+    public void refresh() {
+    	System.out.println("stock");
+    	model.getWarehouseTableModel()
+    	.populateWithData(controller.getAllStockItems());
+    }
 
 }

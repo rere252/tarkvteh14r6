@@ -64,22 +64,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         return (StockItem) session.get(StockItem.class, id);
     }
 
-
-    public void submitCurrentPurchase(List<SoldItem> soldItems, Client currentClient) {
-
+    @Override
+    public void registerSale(Sale sale) {
         // Begin transaction
         Transaction tx = session.beginTransaction();
-
         // construct new sale object
-        Sale sale = new Sale(soldItems);
         //sale.setId(null);
         sale.setSellingTime(new Date());
 
-        // set client who made the sale
-        sale.setClient(currentClient);
-
         // Reduce quantities of stockItems in warehouse
-        for (SoldItem item : soldItems) {
+        for (SoldItem item : sale.getSoldItems()) {
             // Associate with current sale
             item.setSale(sale);
 
