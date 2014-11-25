@@ -79,7 +79,7 @@
 		<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />-->
 	</target>
 
-	<target name="build" depends="initTest" description="Build the system">
+	<target name="build" depends="init" description="Build the system">
 			<mkdir dir="${build.dir}" />
 			<mkdir dir="${build.classes.dir}" />
 			<javac 
@@ -161,7 +161,7 @@
 	    </java>
 	</target>
 
-	<target name="initTest" description="Initialize">
+	<target name="init" description="Initialize">
 				<mkdir dir="${build.dir}"/>
 				<mkdir dir="${build.classes.dir}"/>
 				<mkdir dir="${build.test.dir}"/>
