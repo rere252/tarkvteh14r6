@@ -13,6 +13,8 @@ import java.util.NoSuchElementException;
 public class StockTableModelTest {
 	private StockItem item1;
 	private StockItem item2;
+	private StockItem item3;
+	private SoldItem solditem;
 	private StockTableModel model;
 	private PurchaseInfoTableModel purchaseModel;
 	
@@ -20,25 +22,35 @@ public class StockTableModelTest {
 	public void setUp() {
 		item1 = new StockItem((long)100, "Pepsi", "0.5L", 1.5, 10);
 		item2 = new StockItem((long)101, "Pepsi", "0.5L", 1.5, 10);
-		model = new StockTableModel();
+		item3 = new StockItem((long)102,"Fanta","Karastusjook",1.5,100);
+		solditem = new SoldItem(item1, 15);
+		
+
 	}
 	@Test
 	public void testValidateNameUniqueness(){
+		model = new StockTableModel();
 		model.addItem(item1);
 		model.addItem(item2);
 		
 	}
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testHasEnoughInStock(){
-		purchaseModel = new PurchaseInfoTableModel();
-		purchaseModel.addItem(new SoldItem(item1, 100));
+		assertTrue(item1.getQuantity()<=solditem.getQuantity());
 	}
 	@Test
 	public void testGetItemByIdWhenItemExists(){
+		model = new StockTableModel();
+		model.addItem(item1);
+    	assertEquals(model.getItemById((long)100).toString(), item1.toString());
 		
 	}
-	@Test
+	@Test(expected = NoSuchElementException.class)
 	public void testGetItemByIdWhenThrowsException(){
+		model = new StockTableModel();
+		model.addItem(item1);
+		model.addItem(item3);
+		model.getItemById(5000);
 		
 	}
 }
