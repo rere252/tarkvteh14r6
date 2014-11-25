@@ -2,9 +2,11 @@
 <project basedir="." name="POS" default="build">
 	
 	<property name="src.dir" value="${basedir}/src"/>
+	<property name="test.dir"   value="${basedir}/test"/>
 	<property name="build.dir" value="${basedir}/build"/>
 	<property name="lib.dir" value="${basedir}/lib"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
+	<property name="build.test.dir"       value="${build.dir}/test"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="main.class" value="ee.ut.math.tvt.beeroverflow.Intro"/>
 	<property name="repoName" value="tarkv14r6.git"/>
@@ -38,6 +40,20 @@
 	        </fileset>
 	</path>
 	
+	<path id="libs">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+	
+	<path id="test-classpath">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		    <pathelement path="${build.classes.dir}/" />
+			<pathelement path="${build.test.dir}/" />
+		</path>
+	
 	<path id="compile.classpath">
 	        <fileset dir="${lib.dir}">
 	            <include name="*.jar"/>
@@ -63,24 +79,21 @@
 		<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />-->
 	</target>
 
-	<target name="build" depends="clean" description="Build the system">
-		<mkdir dir="${build.dir}"/>
-		<mkdir dir="${build.classes.dir}"/>
-		<copy todir="${build.classes.dir}">
-			<fileset file="${src.dir}"
-				includes="**/*.xml"/>
-		</copy>
-		<javac
-            srcdir="${src.dir}"
-            destdir="${build.classes.dir}"
-            debug="true"
-            debuglevel="lines,vars,source"
-            encoding="utf-8"
-            compiler="modern"
-            target="1.7"
-            source="1.7"
-			includeantruntime="false">
+	<target name="build" depends="initTest" description="Build the system">
+			<mkdir dir="${build.dir}" />
+			<mkdir dir="${build.classes.dir}" />
+			<javac 
+				srcdir="${src.dir}" 
+				destdir="${build.classes.dir}" 
+				debug="true" 
+				debuglevel="lines,vars,source" encoding="utf-8" 
+				compiler="modern" target="1.7" 
+				source="1.7" 
+				includeantruntime="false"
+			>
 			<classpath refid="compile.classpath"/>
+			<compilerarg value="-Xlint:unchecked" /> 
+			<compilerarg value="-Xlint:deprecation" />
 		</javac>
 	</target>
 	
@@ -110,7 +123,12 @@
 	</target>
 	
 	<target name="jrun" depends="dist">
-		<java jar="${dist.dir}/${Team_name}.jar" fork="true"/>
+		<java classname="${main-class}" fork="true">
+					<classpath>
+						<path refid="test.classpath" />
+						<path location="${jar.dir}/${ant.project.name}.jar" />
+					</classpath>
+				</java>
 	</target>
 	
 	<target name="runc" depends="build" description="Run the application (console)">
@@ -143,6 +161,12 @@
 	    </java>
 	</target>
 
+	<target name="initTest" description="Initialize">
+				<mkdir dir="${build.dir}"/>
+				<mkdir dir="${build.classes.dir}"/>
+				<mkdir dir="${build.test.dir}"/>
+		</target>
+	
 	<target name="startdb" description="Start the HSQLDB with the default params">
 		<java
 	    	classname="org.hsqldb.Server"
@@ -152,6 +176,38 @@
 		</java>
 	</target>
 	
+	<target name="build-tests" depends="build" description="Build the system">
+			<javac
+	            srcdir="${test.dir}"
+	            destdir="${build.test.dir}"
+	            debug="true"
+	            debuglevel="lines,vars,source"
+	            encoding="utf-8"
+	            compiler="modern"
+	            target="1.5"
+	            source="1.5"
+	        	classpathref="libs"
+				includeantruntime="false"
+	        >
+				<classpath>
+					<pathelement path="${build.classes.dir}" />
+				</classpath>
+			</javac>
+		</target>
+	
+	<target name="test" depends="build-tests" description="Run the template application">
+
+			<junit>
+				<classpath refid="test-classpath" />
+
+				<formatter type="brief" usefile="false" />
+				<batchtest>
+					<fileset dir="${build.test.dir}" includes="**/*.class" />
+				</batchtest>
+			</junit>
+
+
+		</target>
 	<macrodef name="tag">
 		<attribute name="tagnumber"/>
 		<attribute name="tagcomment"/>
@@ -194,5 +250,6 @@
 			</exec>
 		</sequential>
 	</macrodef>
+	
 		
 </project>
